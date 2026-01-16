@@ -7,7 +7,7 @@ on:
     branches: ["**"]
 
 jobs:
-  lint-and-e2e:
+  testes-cypress:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,20 +19,30 @@ jobs:
           node-version: "18"
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
-
       - name: Setup Java for Allure
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            cypress-${{ runner.os }}-
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Run ESLint
         run: npm run lint
 
       - name: Run Cypress E2E (headless)
         run: npm run test
+        env:
+          CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
       - name: Generate Allure Report
         if: always()
