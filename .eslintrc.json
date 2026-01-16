@@ -1,0 +1,15 @@
+{
+  "env": {
+    "es2021": true,
+    "node": true,
+    "browser": true,
+    "cypress/globals": true
+  },
+  "extends": ["eslint:recommended", "plugin:cypress/recommended"],
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": ["cypress"],
+  "ignorePatterns": ["node_modules/", "allure-results/", "allure-report/"]
+}

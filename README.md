@@ -50,6 +50,17 @@ npm run allure:open
 npm run allure:serve
 ```
 
+## CI (GitHub Actions)
+
+- O pipeline roda automaticamente em cada push e pull request.
+- Executa verificação de sintaxe com ESLint e testes E2E com Cypress.
+- Ambiente: Ubuntu, Node.js 18, cache de npm para builds mais rápidos.
+- Arquivo do pipeline: [.github/workflows/ci.yml](file:///c:/Projetos-Testes/saucedemo-automation-cypress/.github/workflows/ci.yml)
+- Etapas principais:
+  - Instala dependências com `npm ci`
+  - Lint com `npm run lint`
+  - Testes E2E headless com `npm run test`
+
 ## Estrutura do projeto
 
 ```

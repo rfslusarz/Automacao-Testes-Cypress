@@ -8,6 +8,7 @@
     "cypress:run": "cypress run",
     "test": "cypress run",
     "test:headed": "cypress run --headed",
+    "lint": "eslint . --ext .js",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
     "allure:serve": "allure serve allure-results"
@@ -24,6 +25,8 @@
   "devDependencies": {
     "@shelex/cypress-allure-plugin": "^2.40.0",
     "allure-commandline": "^2.36.0",
-    "cypress": "^15.8.2"
+    "cypress": "^15.8.2",
+    "eslint": "^9.13.0",
+    "eslint-plugin-cypress": "^2.14.0"
   }
 }
