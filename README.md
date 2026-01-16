@@ -6,7 +6,9 @@ Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação
 
 - Cypress para automação E2E
 - Page Object Model (POM)
-- Allure Reports (opcional)
+- Allure Reports para relatórios detalhados
+- Cypress Cloud para execução e monitoramento de testes
+- GitHub Actions para CI/CD
 
 ## Pré-requisitos
 
@@ -24,22 +26,48 @@ npm install
 
 ## Execução dos testes
 
-- Modo interativo (UI):
+### Execução Local
+
+- **Modo interativo (UI)**:
 
 ```bash
 npm run cypress:open
 ```
 
-- Modo headless:
+- **Modo headless**:
 
 ```bash
 npm run cypress:run
 ```
 
-- Modo headed:
+- **Modo headed**:
 
 ```bash
 npm run test:headed
+```
+
+### Execução com Gravação no Cypress Cloud
+
+Para gravar a execução no Cypress Cloud, utilize a variável de ambiente `CYPRESS_RECORD_KEY`.
+
+⚠️ **Nunca versionar a Record Key no repositório.**
+
+#### Exemplo (Linux / Mac):
+```bash
+export CYPRESS_RECORD_KEY=sua-chave-de-gravacao
+npm run cypress:run
+```
+
+#### Exemplo (Windows PowerShell):
+```powershell
+$env:CYPRESS_RECORD_KEY="sua-chave-de-gravacao"
+npm run cypress:run
+```
+
+#### Exemplo (Windows CMD):
+```cmd
+set CYPRESS_RECORD_KEY=sua-chave-de-gravacao
+npm run cypress:run
 ```
 
 ## Relatórios Allure
@@ -50,16 +78,43 @@ npm run allure:open
 npm run allure:serve
 ```
 
-## CI (GitHub Actions)
+## CI/CD (GitHub Actions)
 
-- O pipeline roda automaticamente em cada push e pull request.
-- Executa verificação de sintaxe com ESLint e testes E2E com Cypress.
-- Ambiente: Ubuntu, Node.js 18, cache de npm para builds mais rápidos.
-- Arquivo do pipeline: [.github/workflows/ci.yml](file:///c:/Projetos-Testes/saucedemo-automation-cypress/.github/workflows/ci.yml)
-- Etapas principais:
-  - Instala dependências com `npm ci`
-  - Lint com `npm run lint`
-  - Testes E2E headless com `npm run test`
+O projeto está integrado com **GitHub Actions** e **Cypress Cloud** para execução automatizada e monitoramento contínuo dos testes.
+
+### Pipeline Automatizado
+
+- **Execução automática**: O pipeline roda automaticamente em cada push e pull request
+- **Ambiente**: Ubuntu, Node.js 18, Java 17 (para Allure Reports)
+- **Cache**: Cache de npm e Cypress binary para builds mais rápidos
+- **Arquivo do pipeline**: [.github/workflows/ci.yml](.github/workflows/ci.yml)
+
+### Etapas do Pipeline
+
+1. **Checkout** do código
+2. **Setup Node.js** 18 com cache de npm
+3. **Setup Java** 17 para geração de relatórios Allure
+4. **Cache do Cypress** binary
+5. **Instalação de dependências** com `npm ci`
+6. **Verificação de código** com ESLint (`npm run lint`)
+7. **Execução de testes E2E** com Cypress em modo headless
+8. **Geração de relatórios Allure**
+9. **Upload de artifacts** (relatórios Allure)
+
+### Integração com Cypress Cloud
+
+O projeto está configurado para executar testes no **Cypress Cloud** com as seguintes funcionalidades:
+
+- ✅ **Gravação de execuções**: Todos os testes são gravados e disponibilizados no dashboard do Cypress Cloud
+- ✅ **Execução paralela**: Os testes são executados em 2 containers paralelos para reduzir o tempo de execução
+- ✅ **Monitoramento contínuo**: Acompanhamento de resultados, screenshots e vídeos de falhas
+- ✅ **Histórico de execuções**: Acesso ao histórico completo de todas as execuções
+
+**Configuração:**
+- **Project ID**: `ov4cmo`
+- A chave de gravação (`CYPRESS_RECORD_KEY`) está configurada como secret no GitHub Actions para segurança
+
+Para visualizar os resultados no Cypress Cloud, acesse o dashboard do projeto após a execução do pipeline.
 
 ## Estrutura do projeto
 
@@ -93,6 +148,17 @@ cypress/
 
 - O arquivo `cypress.env.json` é ignorado pelo Git. Veja `cypress.env.example.json` como referência.
 - Os testes usam `Cypress.env('SAUCE_USERNAME')` e `Cypress.env('SAUCE_PASSWORD')`, com fallback para valores públicos de demonstração.
+
+## Segurança da Informação
+
+Este projeto foi desenvolvido exclusivamente para fins de estudo e portfólio.
+
+- Utiliza apenas aplicações públicas de demonstração
+- Não contém credenciais reais, dados pessoais ou informações sensíveis
+- Nenhuma chave, token ou segredo é versionado no repositório
+- Variáveis sensíveis são gerenciadas exclusivamente via variáveis de ambiente e GitHub Secrets
+
+Este repositório segue boas práticas de segurança recomendadas para automação de testes.
 
 ## Licença
 
