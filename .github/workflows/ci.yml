@@ -6,32 +6,39 @@ on:
   pull_request:
     branches: ["**"]
 
+# Permissions required for GitHub Pages deployment
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   testes-cypress:
     runs-on: ubuntu-latest
-    # Runs tests in parallel with matrix strategy https://docs.cypress.io/guides/guides/parallelization
-    # https://docs.github.com/en/actions/using-jobs/using-a-matrix-for-your-jobs
-    # Also see warning here https://github.com/cypress-io/github-action#parallel
     strategy:
-      fail-fast: false # https://github.com/cypress-io/github-action/issues/48
+      fail-fast: false
       matrix:
-        containers: [1, 2] # Uses 2 parallel instances
+        containers: [1, 2]
     steps:
+      # Checkout do código
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Configuração do Node.js com cache de npm
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "18"
           cache: "npm"
 
+      # Java 17 para geração do Allure Report
       - name: Setup Java for Allure
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '17'
+          distribution: temurin
+          java-version: "17"
 
+      # Cache do binário do Cypress para builds mais rápidos
       - name: Cache Cypress binary
         uses: actions/cache@v4
         with:
@@ -40,37 +47,54 @@ jobs:
           restore-keys: |
             cypress-${{ runner.os }}-
 
+      # Instalação limpa das dependências
       - name: Install dependencies
         run: npm ci
 
+      # Verificação de código com ESLint
       - name: Run ESLint
         run: npm run lint
 
+      # Execução dos testes E2E (headless) e gravação no Cypress Cloud em paralelo
       - name: Cypress run
-        # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
         uses: cypress-io/github-action@v6
         with:
-          # Records to Cypress Cloud 
-          # https://docs.cypress.io/guides/cloud/projects#Set-up-a-project-to-record
           record: true
-          parallel: true # Runs test in parallel using settings above
+          parallel: true
         env:
-          # For recording and parallelization to work you must set your CYPRESS_RECORD_KEY
-          # in GitHub repo → Settings → Secrets and variables → Actions → New repository secret
-          # Secret name: CYPRESS_RECORD_KEY
-          # Secret value: 6a3d776f-a849-4362-8427-40adb1da6adb
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          # Creating a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
+
+      # Geração do relatório Allure mesmo em caso de falhas
       - name: Generate Allure Report
         if: always()
         run: npm run allure:generate
 
-      - name: Upload Allure Report
+      # Artifact do Allure para inspeção pela UI de Actions
+      - name: Upload Allure Report artifact
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: allure-report-container-${{ matrix.containers }}
           path: allure-report/
-          retention-days: 30
+          retention-days: 14
+
+      # Artifact para publicação em GitHub Pages (apenas se os testes passaram)
+      - name: Upload Pages artifact (Allure Report)
+        if: success()
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report/
+
+  deploy-pages:
+    needs: testes-cypress
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Deploy do Allure Report para GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

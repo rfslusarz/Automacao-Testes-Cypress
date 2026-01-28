@@ -10,6 +10,7 @@ describe('E2E - Fluxo completo de compra', () => {
   const checkoutPage = new CheckoutPage();
 
   beforeEach(() => {
+    cy.allure().feature('Checkout').epic('Compra').owner('QA');
     loginPage.visit();
     const username = Cypress.env('SAUCE_USERNAME') || 'standard_user';
     const password = Cypress.env('SAUCE_PASSWORD') || 'secret_sauce';
@@ -18,6 +19,7 @@ describe('E2E - Fluxo completo de compra', () => {
   });
 
   it('deve completar o fluxo completo de compra com sucesso', () => {
+    cy.allure().severity('critical').story('Fluxo simples com 1 item');
     const checkoutData = {
       firstName: 'João',
       lastName: 'Silva',
@@ -53,6 +55,7 @@ describe('E2E - Fluxo completo de compra', () => {
   });
 
   it('deve completar o fluxo de compra com múltiplos produtos', () => {
+    cy.allure().severity('normal').story('Fluxo com múltiplos itens');
     const checkoutData = {
       firstName: 'Maria',
       lastName: 'Santos',
@@ -87,4 +90,3 @@ describe('E2E - Fluxo completo de compra', () => {
     checkoutPage.shouldShowSuccessMessage(expectedSuccessMessage);
   });
 });
-

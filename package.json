@@ -9,6 +9,9 @@
     "test": "cypress run",
     "test:headed": "cypress run --headed",
     "lint": "eslint . --ext .js",
+    "format": "prettier \"**/*.{js,json,md,yml}\" --write",
+    "format:check": "prettier \"**/*.{js,json,md,yml}\" --check",
+    "prepare": "husky install",
     "allure:generate": "allure generate allure-results --clean -o allure-report",
     "allure:open": "allure open allure-report",
     "allure:serve": "allure serve allure-results"
@@ -19,7 +22,7 @@
     "testing",
     "automation"
   ],
-  "author": "",
+  "author": "Seu Nome",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
@@ -27,6 +30,16 @@
     "allure-commandline": "^2.36.0",
     "cypress": "^15.8.2",
     "eslint": "^9.13.0",
-    "eslint-plugin-cypress": "^2.14.0"
+    "eslint-plugin-cypress": "^2.14.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.5"
+  },
+  "lint-staged": {
+    "*.{js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml}": "prettier --write"
   }
 }

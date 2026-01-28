@@ -1,5 +1,6 @@
 # SauceDemo Automation - Cypress E2E
 
+[![CI Status](https://github.com/seu-usuario/saucedemo-automation-cypress/actions/workflows/ci.yml/badge.svg)](https://github.com/seu-usuario/saucedemo-automation-cypress/actions)
 ![Cypress](https://img.shields.io/badge/Cypress-15.8%2B-green?style=flat-square&logo=cypress)
 ![Node.js](https://img.shields.io/badge/Node.js-16%2B-blue?style=flat-square&logo=node.js)
 ![Allure](https://img.shields.io/badge/Allure-2.36%2B-orange?style=flat-square&logo=allure)
@@ -10,6 +11,23 @@
 
 Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação [SauceDemo](https://www.saucedemo.com/), desenvolvido para portfólio.
 
+## Relatório Público (GitHub Pages)
+- URL: https://seu-usuario.github.io/saucedemo-automation-cypress/
+- Conteúdo: visão geral, suites, cenários, evidências, timeline e métricas de duração
+- A pipeline publica automaticamente o relatório Allure ao final de uma execução bem-sucedida
+
+## Demonstrações
+- Execução local (GIF curto da UI do Cypress): docs/demo-execucao.gif
+- Fluxo E2E completo: docs/demo-fluxo-e2e.gif
+- Allure Report publicado: seção “Suites” e “Timeline”
+
+## Visão Geral do Projeto
+- Automação E2E com Cypress cobrindo login, catálogo, carrinho e checkout
+- Arquitetura em Page Object Model para manutenibilidade
+- Relatórios Allure com evidências e métricas
+- Pipeline CI/CD no GitHub Actions com execução headless e cache
+- Integração com Cypress Cloud para histórico e paralelização
+
 ## Tecnologias
 
 - Cypress para automação E2E
@@ -17,6 +35,21 @@ Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação
 - Allure Reports para relatórios detalhados
 - Cypress Cloud para execução e monitoramento de testes
 - GitHub Actions para CI/CD
+
+## Critérios de Qualidade e Objetivos dos Testes
+- Sucesso: usuário consegue autenticar, adicionar produtos, revisar resumo e finalizar compra
+- Falha: mensagens de erro apropriadas em credenciais inválidas, campos obrigatórios ausentes e fluxos não permitidos
+- Cobertura: happy paths e unhappy paths do login, carrinho e checkout
+- Objetivo: validar o fluxo crítico de compra com evidências (Allure/Cypress Cloud), garantindo rápida detecção de regressões em CI
+
+## Comandos Customizados
+- Local: cypress/support/commands.js
+- login(username, password): visita, preenche e autentica
+- loginWithFixture(userType): autentica usando dados do fixture users.json
+
+## Variáveis Sensíveis
+- Exemplos locais: cypress.env.json (não versionado) ou variáveis de ambiente
+- Em CI: CYPRESS_RECORD_KEY via GitHub Secrets
 
 ## Pré-requisitos
 
