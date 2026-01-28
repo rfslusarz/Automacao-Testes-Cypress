@@ -1,5 +1,13 @@
 # SauceDemo Automation - Cypress E2E
 
+![Cypress](https://img.shields.io/badge/Cypress-15.8%2B-green?style=flat-square&logo=cypress)
+![Node.js](https://img.shields.io/badge/Node.js-16%2B-blue?style=flat-square&logo=node.js)
+![Allure](https://img.shields.io/badge/Allure-2.36%2B-orange?style=flat-square&logo=allure)
+![Cypress Cloud](https://img.shields.io/badge/Cypress%20Cloud-Enabled-informational?style=flat-square&logo=cypress)
+![Page Object Model](https://img.shields.io/badge/Page%20Object%20Model-POM-lightgrey?style=flat-square)
+![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI-blue?style=flat-square&logo=githubactions)
+![License](https://img.shields.io/badge/License-ISC-yellow?style=flat-square)
+
 Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação [SauceDemo](https://www.saucedemo.com/), desenvolvido para portfólio.
 
 ## Tecnologias
