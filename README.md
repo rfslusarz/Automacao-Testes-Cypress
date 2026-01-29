@@ -36,6 +36,25 @@ Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação
 - Cypress Cloud para execução e monitoramento de testes
 - GitHub Actions para CI/CD
 
+## Estrutura do projeto
+
+```
+cypress/
+ ├─ e2e/
+ │   ├─ login.cy.js
+ │   └─ checkout.e2e.cy.js
+ ├─ pages/
+ │   ├─ LoginPage.js
+ │   ├─ InventoryPage.js
+ │   ├─ CartPage.js
+ │   └─ CheckoutPage.js
+ ├─ fixtures/
+ │   └─ users.json
+ └─ support/
+     ├─ commands.js
+     └─ e2e.js
+```
+
 ## Critérios de Qualidade e Objetivos dos Testes
 - Sucesso: usuário consegue autenticar, adicionar produtos, revisar resumo e finalizar compra
 - Falha: mensagens de erro apropriadas em credenciais inválidas, campos obrigatórios ausentes e fluxos não permitidos
@@ -157,24 +176,6 @@ O projeto está configurado para executar testes no **Cypress Cloud** com as seg
 
 Para visualizar os resultados no Cypress Cloud, acesse o dashboard do projeto após a execução do pipeline.
 
-## Estrutura do projeto
-
-```
-cypress/
- ├─ e2e/
- │   ├─ login.cy.js
- │   └─ checkout.e2e.cy.js
- ├─ pages/
- │   ├─ LoginPage.js
- │   ├─ InventoryPage.js
- │   ├─ CartPage.js
- │   └─ CheckoutPage.js
- ├─ fixtures/
- │   └─ users.json
- └─ support/
-     ├─ commands.js
-     └─ e2e.js
-```
 
 ## Credenciais (boas práticas)
 
