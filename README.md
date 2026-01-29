@@ -1,6 +1,6 @@
 # SauceDemo Automation - Cypress E2E
 
-[![CI Status](https://github.com/seu-usuario/saucedemo-automation-cypress/actions/workflows/ci.yml/badge.svg)](https://github.com/seu-usuario/saucedemo-automation-cypress/actions)
+[![CI Status](https://github.com/fsLuisarZ/saucedemo-automation-cypress/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/fsLuisarZ/saucedemo-automation-cypress/actions/workflows/ci.yml)
 ![Cypress](https://img.shields.io/badge/Cypress-15.8%2B-green?style=flat-square&logo=cypress)
 ![Node.js](https://img.shields.io/badge/Node.js-16%2B-blue?style=flat-square&logo=node.js)
 ![Allure](https://img.shields.io/badge/Allure-2.36%2B-orange?style=flat-square&logo=allure)
@@ -12,7 +12,7 @@
 Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação [SauceDemo](https://www.saucedemo.com/), desenvolvido para portfólio.
 
 ## Relatório Público (GitHub Pages)
-- URL: https://seu-usuario.github.io/saucedemo-automation-cypress/
+- URL: https://fsluisarz.github.io/saucedemo-automation-cypress/
 - Conteúdo: visão geral, suites, cenários, evidências, timeline e métricas de duração
 - A pipeline publica automaticamente o relatório Allure ao final de uma execução bem-sucedida
 
