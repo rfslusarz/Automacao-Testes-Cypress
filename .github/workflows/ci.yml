@@ -31,13 +31,6 @@ jobs:
           node-version: "18"
           cache: "npm"
 
-      # Java 17 para geração do Allure Report
-      - name: Setup Java for Allure
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "17"
-
       # Cache do binário do Cypress para builds mais rápidos
       - name: Cache Cypress binary
         uses: actions/cache@v4
@@ -51,50 +44,93 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Verificação de código com ESLint
+      # Verificação de código com ESLint (apenas no container 1 para evitar duplicação)
       - name: Run ESLint
+        if: matrix.containers == 1
         run: npm run lint
 
-      # Execução dos testes E2E (headless) e gravação no Cypress Cloud em paralelo
+      # Execução dos testes E2E (headless) com gravação opcional no Cypress Cloud
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          record: true
-          parallel: true
+          record: ${{ secrets.CYPRESS_RECORD_KEY != '' }}
+          parallel: ${{ secrets.CYPRESS_RECORD_KEY != '' }}
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CYPRESS_CACHE_FOLDER: ~/.cache/Cypress
 
-      # Geração do relatório Allure mesmo em caso de falhas
-      - name: Generate Allure Report
-        if: always()
-        run: npm run allure:generate
-
-      # Artifact do Allure para inspeção pela UI de Actions
-      - name: Upload Allure Report artifact
+      # Upload dos resultados Allure (JSON) para merge posterior
+      - name: Upload Allure results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-report-container-${{ matrix.containers }}
+          name: allure-results-${{ matrix.containers }}
+          path: allure-results/
+          retention-days: 1
+
+  merge-and-generate-report:
+    needs: testes-cypress
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      # Checkout do código
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Configuração do Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      # Java 17 para geração do Allure Report
+      - name: Setup Java for Allure
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Instalação das dependências (apenas para ter o allure-commandline)
+      - name: Install dependencies
+        run: npm ci
+
+      # Download de todos os resultados Allure dos containers
+      - name: Download all Allure results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          path: allure-results-merged/
+          merge-multiple: true
+
+      # Geração do relatório Allure consolidado
+      - name: Generate consolidated Allure Report
+        run: npm run allure:generate -- allure-results-merged --clean -o allure-report
+
+      # Upload do relatório Allure consolidado como artifact
+      - name: Upload consolidated Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report-consolidated
           path: allure-report/
           retention-days: 14
 
-      # Artifact para publicação em GitHub Pages (apenas se os testes passaram)
-      - name: Upload Pages artifact (Allure Report)
-        if: success()
+      # Upload do relatório para GitHub Pages
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: allure-report/
 
   deploy-pages:
-    needs: testes-cypress
+    needs: merge-and-generate-report
     runs-on: ubuntu-latest
+    if: always()
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      # Deploy do Allure Report para GitHub Pages
+      # Deploy do Allure Report consolidado para GitHub Pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
