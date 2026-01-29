@@ -7,19 +7,19 @@
 ![Cypress Cloud](https://img.shields.io/badge/Cypress%20Cloud-Enabled-informational?style=flat-square&logo=cypress)
 ![Page Object Model](https://img.shields.io/badge/Page%20Object%20Model-POM-lightgrey?style=flat-square)
 ![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI-blue?style=flat-square&logo=githubactions)
-![License](https://img.shields.io/badge/License-ISC-yellow?style=flat-square)
+![License](https://img.shields.io/badge/License-ISC-yellow?style=flat-square&logo=opensourceinitiative)
 
 Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação [SauceDemo](https://www.saucedemo.com/), desenvolvido para portfólio.
 
 ## Relatório Público (GitHub Pages)
 - URL: https://rfslusarz.github.io/automacao-testes-cypress/
 - Conteúdo: visão geral, suites, cenários, evidências, timeline e métricas de duração
-- A pipeline publica automaticamente o relatório Allure ao final de uma execução bem-sucedida
 
 ## Demonstrações
-- Execução local (GIF curto da UI do Cypress): docs/demo-execucao.gif
-- Fluxo E2E completo: docs/demo-fluxo-e2e.gif
-- Allure Report publicado: seção “Suites” e “Timeline”
+
+-**[Allure Report (GitHub Pages)](https://rfslusarz.github.io/automacao-testes-cypress/)** - Relatório completo com suites, timeline e evidências
+-**[Cypress Cloud Dashboard](https://cloud.cypress.io/projects/ov4cmo)** - Histórico de execuções e resultados em tempo real
+-**[GitHub Actions](https://github.com/rfslusarz/automacao-testes-cypress/actions)** - Pipeline CI/CD com execução paralela
 
 ## Visão Geral do Projeto
 - Automação E2E com Cypress cobrindo login, catálogo, carrinho e checkout
@@ -91,7 +91,7 @@ npm run test:headed
 
 Para gravar a execução no Cypress Cloud, utilize a variável de ambiente `CYPRESS_RECORD_KEY`.
 
-⚠️ **Nunca versionar a Record Key no repositório.**
+**Nunca versionar a Record Key no repositório.**
 
 #### Exemplo (Linux / Mac):
 ```bash
@@ -146,10 +146,10 @@ O projeto está integrado com **GitHub Actions** e **Cypress Cloud** para execu�
 
 O projeto está configurado para executar testes no **Cypress Cloud** com as seguintes funcionalidades:
 
-- ✅ **Gravação de execuções**: Todos os testes são gravados e disponibilizados no dashboard do Cypress Cloud
-- ✅ **Execução paralela**: Os testes são executados em 2 containers paralelos para reduzir o tempo de execução
-- ✅ **Monitoramento contínuo**: Acompanhamento de resultados, screenshots e vídeos de falhas
-- ✅ **Histórico de execuções**: Acesso ao histórico completo de todas as execuções
+-  **Gravação de execuções**: Todos os testes são gravados e disponibilizados no dashboard do Cypress Cloud
+-  **Execução paralela**: Os testes são executados em 2 containers paralelos para reduzir o tempo de execução
+-  **Monitoramento contínuo**: Acompanhamento de resultados, screenshots e vídeos de falhas
+-  **Histórico de execuções**: Acesso ao histórico completo de todas as execuções
 
 **Configuração:**
 - **Project ID**: `ov4cmo`
