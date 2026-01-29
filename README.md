@@ -12,7 +12,7 @@
 Projeto de automação de testes End-to-End (E2E) com Cypress para a aplicação [SauceDemo](https://www.saucedemo.com/), desenvolvido para portfólio.
 
 ## Relatório Público (GitHub Pages)
-- URL: https://rfslusarz.github.io/saucedemo-automation-cypress/
+- URL: https://rfslusarz.github.io/automacao-testes-cypress/
 - Conteúdo: visão geral, suites, cenários, evidências, timeline e métricas de duração
 - A pipeline publica automaticamente o relatório Allure ao final de uma execução bem-sucedida
 
