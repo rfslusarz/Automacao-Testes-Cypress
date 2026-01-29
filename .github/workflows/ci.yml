@@ -92,21 +92,21 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      # Instalação das dependências (apenas para ter o allure-commandline)
-      - name: Install dependencies
-        run: npm ci
-
       # Download de todos os resultados Allure dos containers
       - name: Download all Allure results
         uses: actions/download-artifact@v4
         with:
           pattern: allure-results-*
-          path: allure-results-merged/
+          path: allure-results/
           merge-multiple: true
+
+      # Instalação das dependências (apenas para ter o allure-commandline)
+      - name: Install dependencies
+        run: npm ci
 
       # Geração do relatório Allure consolidado
       - name: Generate consolidated Allure Report
-        run: npm run allure:generate -- allure-results-merged --clean -o allure-report
+        run: npm run allure:generate
 
       # Upload do relatório Allure consolidado como artifact
       - name: Upload consolidated Allure Report
